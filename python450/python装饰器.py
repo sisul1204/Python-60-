@@ -6,4 +6,5 @@
 
 from functools import wraps
 
-def logging(text)
+def logging(text):
+    pass
