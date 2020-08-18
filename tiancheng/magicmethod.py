@@ -351,9 +351,59 @@ print(next(y))
 print(type(y))
 print(next(y))
 print(next(y))
+
+print('-' * 50)
 '''
 当执行f=fib()返回的是一个生成器对象，此时函数体中的代码并不会执行，只有显示或
 隐式的调用next的时候才会真正执行里面的代码。
 假设有千万个对象，需要顺序调取，如果一次加载到内存，对内存是极大的压力，有生成器
-之后，可以
+之后，可以需要的时候去生成一个，不需要的也不会占用内存
 '''
+a = (a*a for a in range(10))
+print(type(a))
+print(next(a))
+print(next(a))
+a.close()
+# print(next(a))
+
+'''
+close可以关闭生成器。生成器中还有一个send方法，其中send(None)与next是等价的
+'''
+
+def double_inputs():
+    while True:
+        x = yield
+        yield x * 2
+
+generator = double_inputs()
+generator.send(None)
+print(generator.send(10))
+next(generator)
+print(generator.send(20))
+'''
+以上可以看出，生成器可以接收参数，通过send(value)方法，且第一次不能直接send(value)，
+需要send(None)或者next()执行之后。也就是说调用send传入非None值钱，生成器必须处于挂
+起状态，否则将抛出异常。
+'''
+
+'''
+生成器与迭代器的区别
+迭代器是一个更抽象的概念，任何对象，如果它有next方法和iter方法，则可以称作迭代器。
+
+每一个生成器都是迭代器，但是反过来不行。通常生成器是通过调用一个或者多个yield表达式
+构成的函数生成的。同时满足迭代器的定义。
+
+生成器能做到迭代器能做的所有事，而且因为自动创建了iter()和next()方法，生成器显得特别简洁，
+而且生成器也是高效的。
+'''
+print('-'*50)
+
+
+
+
+
+
+
+
+
+
